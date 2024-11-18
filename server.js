@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, 'public'))); //Configures middleware to serve static files from "public" folder
 
 // Route to get Pokédex data without duplicates
-app.get('/api/pokedex', (req, res) => {
+app.get('/api/pokclearedex', (req, res) => {
   const uniquePokemonIds = new Set(); // Create a new set to store unique Pokémon IDs
 
 // Filter Pokédex data to eliminate duplicates

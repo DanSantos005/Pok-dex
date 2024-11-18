@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const fetchPokemonData = async searchTerm => {
     try {
-        const response = await fetch('/api/pokedex');
-        const data = await response.json();
+        // Use the data that you fetched when the page loaded
+        const data = await fetch('/api/pokclearedex').then(response => response.json());
         pokemonList.innerHTML = ''; // Cleans the list to show new results
         const filteredData = searchTerm ? 
                              data.filter(pokemon => pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())) :
@@ -50,22 +50,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 };
 
+
   fetchPokemonData();
 
   pokemonList.addEventListener('click', async event => {
     if (event.target.classList.contains('details-btn')) {
       const pokemonId = parseInt(event.target.dataset.id);
       try {
-        const response = await fetch('/api/pokedex');
+        const response = await fetch('/api/pokclearedex');  // Use the correct route here
         const data = await response.json();
-        const pokemon = data.find(pokemon => pokemon.id === pokemonId);
-        renderModal(pokemon);
-        $('#pokemonModal').modal('show'); // Show the modal
+        const pokemon = data.find(pokemon => pokemon.id === pokemonId);  // Match by ID
+  
+        if (pokemon) {
+          renderModal(pokemon);  // Populate modal with the Pokémon data
+          $('#pokemonModal').modal('show');  // Show the modal using Bootstrap
+        }
       } catch (error) {
         console.error('Error fetching Pokémon details:', error);
       }
     }
   });
+  
 
   searchButton.addEventListener('click', () => {
     const searchTerm = searchInput.value.trim();
